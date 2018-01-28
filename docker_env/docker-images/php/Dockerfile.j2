@@ -1,7 +1,6 @@
 # Use an official Ubuntu image as a parent image
 FROM php:7.1
 
-WORKDIR ~/
 
 # Install any needed packages
 RUN buildDeps=" \
@@ -24,14 +23,12 @@ RUN buildDeps=" \
     iconv \
     xml \
     intl \
-    common \
-    cgi \
     json \
     odbc \
     xsl \
-    fpm \
     mysql \
     pdo_mysql \
+    mysqli \
     bcmath \
     soap \
     zip \
