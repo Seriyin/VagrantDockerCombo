@@ -1,0 +1,20 @@
+version: "3"
+services:
+  mysql:
+    image: mysql:5.7
+    deploy:
+      restart_policy:
+        condition: on-failure
+    networks:
+      - webnet
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: magento
+      MYSQL_DATABASE: magento
+      MYSQL_USER: magento
+      MYSQL_PASSWORD: magento
+    volumes:
+      - db:/var/lib/mysql
+networks:
+  webnet:
