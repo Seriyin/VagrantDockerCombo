@@ -13,7 +13,7 @@ services:
     networks:
       - webnet
     volumes:
-      - php:/var/www/html
+      - "php:/var/www/html"
   magento:
     deploy:
       restart_policy:
@@ -21,7 +21,7 @@ services:
     build:
       context: docker-images/php/
     volumes:
-      - php:/var/www/html
+      - "php:/var/www/html"
 networks:
   webnet:
 volumes:

@@ -15,6 +15,6 @@ services:
       MYSQL_USER: magento
       MYSQL_PASSWORD: magento
     volumes:
-      - db:/var/lib/mysql
+      -"./db:/var/lib/mysql"
 networks:
   webnet:
