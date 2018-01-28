@@ -46,10 +46,12 @@ RUN rm -rf /var/www/html/*
 # Install magerun
 RUN curl -sS https://getcomposer.org/installer | php && \
     mv composer.phar /usr/local/bin/composer && \
-    composer create-project --repository-url=https://repo.magento.com/ magento/project-community-edition /var/www/html/ && \
+    composer create-project --repository-url=https://repo.magento.com/ magento/project-community-edition /var/www/html/web && \
+    cd /var/www/html/web && \
+    find var generated vendor pub/static pub/media app/etc -type f -exec chmod u+w {} \; && \
+    find var vendor generated pub/static pub/media app/etc -type d -exec chmod u+w {} \; && \
+    chmod u+x bin/magento && \
     apt-get update && \
-    apt-get install -qy mysql-client
-
-# Make port 8080 available to the world outside this container
-EXPOSE 80
-EXPOSE 443
+    apt-get install -qy mysql-client && \
+    export PATH=$PATH:/var/www/html/web/bin && \
+    magento setup:install --admin-firstname=SDB --admin-lastname=SDB --admin-email=sdbuminho@gmail.com --admin-user={{magento_user}} --admin-password={{magento_password}} --db-host={{db_host}} --db-user={{db_user}} --db-password={{db_password}} --use-rewrites=1
