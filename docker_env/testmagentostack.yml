@@ -1,0 +1,44 @@
+version: "3"
+services:
+  web:
+    # replace username/repo:tag with your name and image details
+    build:
+      context: docker-images/nginx/
+    deploy:
+      restart_policy:
+        condition: on-failure
+    ports:
+      - "80:80"
+      - "443:443"
+    networks:
+      - webnet
+    volumes:
+      - php:/var/www/html
+  magento:
+    deploy:
+      restart_policy:
+        condition: on-failure
+    build:
+      context: docker-images/php/
+    volumes:
+      - php:/var/www/html
+  mysql:
+    image: mysql:5.7
+    deploy:
+      restart_policy:
+        condition: on-failure
+    networks:
+      - webnet
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: {{db_password}}
+      MYSQL_DATABASE: magento
+      MYSQL_USER: {{db_user}}
+      MYSQL_PASSWORD: {{db_password}}
+    volumes:
+      - db:/var/lib/mysql
+networks:
+  webnet:
+volumes:
+  php:
