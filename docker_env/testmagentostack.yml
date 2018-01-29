@@ -12,7 +12,7 @@ services:
     networks:
       - webnet
     volumes:
-      - "php:/var/www/html/web"
+      - "php:/var/www/"
       - "./docker-images/nginx/vhosts.conf:/etc/nginx/conf.d/default.conf"
   magento:
     deploy:
@@ -22,7 +22,7 @@ services:
     networks:
       - webnet
     volumes:
-      - "php:/var/www/html/web"
+      - "php:/var/www/"
 networks:
   webnet:
 volumes:
