@@ -12,14 +12,16 @@ services:
     networks:
       - webnet
     volumes:
-      - "php:/var/www/html"
+      - "./web:/var/www/html/web"
   magento:
     deploy:
       restart_policy:
         condition: on-failure
-    image: andrediogo92/magento:latest
+    image: andrediogo92/magento-php:latest
+    networks:
+      - webnet
     volumes:
-      - "php:/var/www/html"
+      - "./web:/var/www/html/web"
 networks:
   webnet:
 volumes:
