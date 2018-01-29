@@ -61,12 +61,16 @@ RUN rm -rf /var/www/html/*
 # Install magento from composer
 RUN curl -sS https://getcomposer.org/installer | php && \
     mv composer.phar /usr/local/bin/composer
-    
-RUN composer create-project --repository-url=https://repo.magento.com/ magento/project-community-edition /var/www/html/web && \
-    cd /var/www/html/web
 
-RUN find var generated vendor pub/static pub/media app/etc -type f -exec chmod u+w {} \; && \
+RUN composer create-project \ 
+    --repository-url=https://repo.magento.com/ \
+    magento/project-community-edition /var/www/html/web/
+    
+RUN cd /var/html/web && \
+    find var generated vendor pub/static pub/media app/etc -type f -exec chmod u+w {} \; && \
     find var vendor generated pub/static pub/media app/etc -type d -exec chmod u+w {} \; && \
     chmod u+x bin/magento && \
     export PATH=$PATH:/var/www/html/web/bin && \
-    magento setup:install --admin-firstname=SDB --admin-lastname=SDB --admin-email=example@gmail.com --admin-user=magento1 --admin-password=magento1 --db-host=10.0.0.103 --db-name=magento1 --db-user=magento1 --db-password=magento1 --use-rewrites=1
+    magento setup:install --admin-firstname=SDB --admin-lastname=SDB --admin-email=example@gmail.com --admin-user=magento --admin-password=magento1 --db-host=10.0.0.103 --db-name=magento1 --db-user=magento1 --db-password=magento1 --use-rewrites=1
+
+RUN /bin/bash
