@@ -1,0 +1,13 @@
+{
+    "repositories": [
+        {
+            "type": "composer",
+            "url": "https://repo.magento.com",
+            "options": {
+                "ssl": {
+                    "verify_peer": "true"
+                }
+            }
+        }
+    ]
+}
