@@ -1,5 +1,5 @@
 # Use an official PHP image as a parent image
-FROM php:7.1
+FROM php:7.1-fpm
 
 
 # Install any needed packages
@@ -52,8 +52,11 @@ RUN buildDeps=" \
 
 COPY php.ini /usr/local/etc/php/php.ini
 COPY php-fpm.conf /usr/local/etc/
-COPY auth.json ./
-COPY composer.json ./
+
+RUN mkdir /root/.composer
+
+COPY auth.json /root/.composer/
+COPY composer.json /root/.composer/
 
 # Make sure the volume mount point is empty
 RUN rm -rf /var/www/html/*
@@ -62,7 +65,7 @@ RUN rm -rf /var/www/html/*
 RUN curl -sS https://getcomposer.org/installer | php && \
     mv composer.phar /usr/local/bin/composer
 
-RUN composer create-project \ 
+RUN composer -vvv create-project \ 
     --repository-url=https://repo.magento.com/ \
     magento/project-community-edition /var/www/html/web/
     
@@ -72,5 +75,3 @@ RUN cd /var/html/web && \
     chmod u+x bin/magento && \
     export PATH=$PATH:/var/www/html/web/bin && \
     magento setup:install --admin-firstname=SDB --admin-lastname=SDB --admin-email=example@gmail.com --admin-user=magento --admin-password=magento1 --db-host=10.0.0.103 --db-name=magento1 --db-user=magento1 --db-password=magento1 --use-rewrites=1
-
-RUN /bin/bash
