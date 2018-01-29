@@ -2,8 +2,7 @@ version: "3"
 services:
   web:
     # replace username/repo:tag with your name and image details
-    build:
-      context: docker-images/nginx/
+    image: andrediogo92/nginx-mage:latest
     deploy:
       restart_policy:
         condition: on-failure
@@ -18,8 +17,7 @@ services:
     deploy:
       restart_policy:
         condition: on-failure
-    build:
-      context: docker-images/php/
+    image: andrediogo92/magento:latest
     volumes:
       - "php:/var/www/html"
 networks:
