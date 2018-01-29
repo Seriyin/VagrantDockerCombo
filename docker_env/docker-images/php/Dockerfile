@@ -59,7 +59,7 @@ COPY auth.json /root/.composer/
 COPY composer.json /root/.composer/
 
 # Make sure the volume mount point is empty
-RUN rm -rf /var/www/html/*
+RUN rm -rf /var/www/*
 
 # Install magento from composer
 RUN curl -sS https://getcomposer.org/installer | php && \
@@ -67,11 +67,11 @@ RUN curl -sS https://getcomposer.org/installer | php && \
 
 RUN composer -vvv create-project \ 
     --repository-url=https://repo.magento.com/ \
-    magento/project-community-edition /var/www/html/web/
+    magento/project-community-edition /var/www/magento2
     
-RUN cd /var/html/web && \
-    find var generated vendor pub/static pub/media app/etc -type f -exec chmod u+w {} \; && \
-    find var vendor generated pub/static pub/media app/etc -type d -exec chmod u+w {} \; && \
-    chmod u+x bin/magento && \
-    export PATH=$PATH:/var/www/html/web/bin && \
+RUN cd /var/www/magento2 && \
+    find var generated vendor pub/static pub/media app/etc -type f -exec chmod 777 {} \; && \
+    find var vendor generated pub/static pub/media app/etc -type d -exec chmod 777 {} \; && \
+    chmod 777 bin/magento && \
+    export PATH=$PATH:/var/www/magento2/bin && \
     magento setup:install --admin-firstname=SDB --admin-lastname=SDB --admin-email=example@gmail.com --admin-user=magento --admin-password=magento1 --db-host=10.0.0.103 --db-name=magento1 --db-user=magento1 --db-password=magento1 --use-rewrites=1
